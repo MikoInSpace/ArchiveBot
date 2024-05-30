@@ -1,0 +1,16 @@
+{
+  "name": "discord-message-archiver",
+  "version": "1.0.0",
+  "description": "A Discord bot to archive messages from specified channels",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^13.3.1",
+    "fast-csv": "^5.0.1"
+  }
+}
+
