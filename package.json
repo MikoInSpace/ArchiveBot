@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node index.js"
   },
-  "author": "Your Name",
+  "author": "MikoInSpace",
   "license": "MIT",
   "dependencies": {
     "discord.js": "^13.3.1",

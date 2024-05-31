@@ -5,6 +5,8 @@ const csv = require('fast-csv');
 
 // Bot token
 const token = 'INSERT-YOUR-TOKEN';
+const serverId = 'INSERT-SERVER-ID';
+const roleId = 'INSERT-ROLE-ID';
 
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
@@ -13,6 +15,8 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_
 client.once('ready', () => {
     console.log(`${client.user.tag} is ready to archive messages!`);
     logBotStatus();
+
+    archiveMessages();
 });
 
 // Function to log bot's current status
@@ -21,7 +25,7 @@ function logBotStatus() {
     console.log(`Current status: ${client.user.presence.status}`);
 }
 
-// Archive messages every minute for testing purposes
+// Archive messages every hour
 setInterval(() => {
     archiveMessages();
     logBotStatus();
@@ -29,7 +33,6 @@ setInterval(() => {
 
 // Function to archive messages
 async function archiveMessages() {
-    const serverId = 'INSERT-SERVER-ID';
     const server = client.guilds.cache.get(serverId);
     if (!server) {
         console.error('Server not found!');
@@ -37,7 +40,6 @@ async function archiveMessages() {
     }
 
     // Get the role with the specified ID
-    const roleId = 'INSERT-ROLE-ID';
     const role = server.roles.cache.get(roleId);
     if (!role) {
         console.error('Role not found!');
