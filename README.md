@@ -12,28 +12,28 @@ A discord bot to archive discord server messages
 ```
 
 2. Modify `token`, `serverId` and `roleId`
-  i. Go to https://discord.com/developers/applications and create a new application
+  I. Go to https://discord.com/developers/applications and create a new application
 
-  ii. Click on bot on the left side of the screen
+  II. Click on bot on the left side of the screen
 
-  iii. Click on reset token
+  III. Click on reset token
 
-  iv. Copy the token
+  IV. Copy the token
 
-  v. Open `index.js` in the repo you just cloned.
+  V. Open `index.js` in the repo you just cloned.
 
-  vi. Replace `INSERT-YOUR-TOKEN` on line 7 with the token you just copied.
+  VI. Replace `INSERT-YOUR-TOKEN` on line 7 with the token you just copied.
 
-  vii. Replace `INSERT-SERVER-ID` and `INSERT-ROLE-ID` with your server id and role id respectively
+  VII. Replace `INSERT-SERVER-ID` and `INSERT-ROLE-ID` with your server id and role id respectively
 
-  viii. Invite the discord bot to your server.
+  VIII. Invite the discord bot to your server.
 
-  ix. Now in the bot folder, run
+  IX. Now in the bot folder, run
   ```bash
   npm install
   ```
 
-  x. Finally, run 
+  X. Finally, run 
   ```bash
   node index.js
   ```
