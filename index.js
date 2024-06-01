@@ -4,9 +4,7 @@ const path = require('path');
 const csv = require('fast-csv');
 
 // Bot token
-const token = 'INSERT-YOUR-TOKEN';
-const serverId = 'INSERT-SERVER-ID';
-const roleId = 'INSERT-ROLE-ID';
+const token = 'YOUR-TOKEN-HERE';
 
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
@@ -15,8 +13,6 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_
 client.once('ready', () => {
     console.log(`${client.user.tag} is ready to archive messages!`);
     logBotStatus();
-
-    archiveMessages();
 });
 
 // Function to log bot's current status
@@ -33,6 +29,7 @@ setInterval(() => {
 
 // Function to archive messages
 async function archiveMessages() {
+    const serverId = 'YOUR-SERVER-ID-HERE';
     const server = client.guilds.cache.get(serverId);
     if (!server) {
         console.error('Server not found!');
@@ -40,6 +37,7 @@ async function archiveMessages() {
     }
 
     // Get the role with the specified ID
+    const roleId = 'YOUR-ROLE-ID-HER';
     const role = server.roles.cache.get(roleId);
     if (!role) {
         console.error('Role not found!');
@@ -55,14 +53,14 @@ async function archiveMessages() {
         fs.mkdirSync('archives');
     }
 
-    // Create a folder with the current date and time
-    const dateTime = new Date().toISOString().replace(/[:.]/g, '-');
-    const archiveFolder = path.join('archives', dateTime);
-    fs.mkdirSync(archiveFolder);
-
     for (const [channelId, channel] of channels) {
         try {
             const messages = await fetchAllMessages(channel);
+
+            // Generate a unique folder name with the current date and time for each archive operation
+            const dateTime = new Date().toISOString().replace(/[:.]/g, '-');
+            const archiveFolder = path.join('archives', dateTime);
+            fs.mkdirSync(archiveFolder);
 
             // Convert messages to CSV string and write to file
             csv.writeToPath(path.join(archiveFolder, `${channel.name}.csv`), messages, { headers: true })
@@ -74,10 +72,12 @@ async function archiveMessages() {
     }
 }
 
-// Function to fetch all messages from a channel
+// Function to fetch all messages from a channel that are at least 30 minutes old
 async function fetchAllMessages(channel) {
     let messages = [];
     let lastId;
+    const now = new Date();
+    const thirtyMinutesAgo = new Date(now.getTime() - 30 * 60 * 1000);
 
     while (true) {
         const options = { limit: 100, before: lastId };
@@ -87,13 +87,19 @@ async function fetchAllMessages(channel) {
             break;
         }
 
-        messages.push(...fetchedMessages.map(message => ({
+        const filteredMessages = fetchedMessages.filter(message => message.createdAt <= thirtyMinutesAgo);
+
+        messages.push(...filteredMessages.map(message => ({
             id: message.id,
             author: message.author.tag,
             content: message.content.replace(/\n/g, ' '),
             timestamp: message.createdAt.toISOString()
         })));
-        
+
+        if (fetchedMessages.size < 100) {
+            break;
+        }
+
         lastId = fetchedMessages.last().id;
     }
 
