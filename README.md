@@ -1,5 +1,5 @@
 
-# ArchivalBot
+# Archiva Bot
 
 A discord bot to archive discord server messages
 
